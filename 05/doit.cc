@@ -79,18 +79,16 @@ type min_loc(string const &source, type start, type end) {
     type unmapped_start = max(start, source_end);
     result = min(result, min_loc(dest, unmapped_start, end));
     end = min(end, source_end);
-    if (start < end) {
-      // Next mapped part
-      type mapped_start = max(start, source_start);
-      assert(mapped_start < end && end <= source_end);
-      result = min(result, min_loc(dest, mapped_start + offset, end + offset));
-      end = min(end, source_start);
-    }
+    if (start >= end)
+      break;
+    // Next mapped part
+    type mapped_start = max(start, source_start);
+    assert(mapped_start < end && end <= source_end);
+    result = min(result, min_loc(dest, mapped_start + offset, end + offset));
+    end = min(end, source_start);
   }
-  if (start < end)
-    // Any remaining unmapped part
-    result = min(result, min_loc(dest, start, end));
-  return result;
+  // Any remaining unmapped part
+  return min(result, min_loc(dest, start, end));
 }
 
 vector<pair<type, type>> seed_ranges;
