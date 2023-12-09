@@ -8,7 +8,6 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <numeric>
 #include <cassert>
 
 using namespace std;
@@ -17,8 +16,8 @@ int extrapolate(vector<int> ns) {
   if (all_of(ns.begin(), ns.end(), [](int n) { return n == 0; }))
     return 0;
   vector<int> diffs;
-  adjacent_difference(ns.begin(), ns.end(), back_inserter(diffs));
-  diffs.erase(diffs.begin());
+  for (size_t i = 0; i + 1 < ns.size(); ++i)
+    diffs.push_back(ns[i + 1] - ns[i]);
   return ns.back() + extrapolate(diffs);
 }
 
