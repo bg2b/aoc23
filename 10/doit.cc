@@ -112,10 +112,22 @@ map<coord, int> pipes::dist_from_start() const {
 }
 
 void pipes::clean_up(map<coord, int> const &dist) {
+  vector<coord> dist1;
   for (int j = 0; j < height(); ++j)
     for (int i = 0; i < width(); ++i)
       if (!dist.count({i, j}))
         maze[j][i] = '.';
+      else if (dist.find({i, j})->second == 1)
+        dist1.emplace_back(i, j);
+  // Have to fix up S to match whatever the neighbors are for
+  // num_inside to work!  I got lucky on my input...
+  assert(dist1.size() == 2);
+  for (char replacement : "-|LJF7") {
+    maze[start.second][start.first] = replacement;
+    if (connected(dist1[0], start) && connected(dist1[1], start))
+      break;
+  }
+  assert(connected(dist1[0], start) && connected(dist1[1], start));
 }
 
 int pipes::num_inside() {
