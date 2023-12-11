@@ -73,11 +73,7 @@ bool pipes::connected(coord const &c1, coord const &c2) const {
   char p2 = at(c2);
   if (p2 == '.')
     return false;
-  auto is = [&](char p, char const *ok) -> bool {
-              for (; *ok && p != *ok; ++ok)
-                ;
-              return *ok;
-            };
+  auto is = [](char p, string const &ok) { return ok.find(p) != string::npos; };
   coord delta = c2 - c1;
   if (delta == pair{+1, 0} && is(p1, "S-FL") && is(p2, "-7J"))
     return true;
