@@ -38,3 +38,4 @@ problem unusually fun.  Each of these problems is either ⭐
 + [Day 9: Mirage Maintenance](https://adventofcode.com/2023/day/9) ⭐
 + [Day 10: Pipe Maze](https://adventofcode.com/2023/day/10) (This one
 has lots of interesting possible approaches for part 2) ⭐⭐
++ [Day 12: Hot Springs](https://adventofcode.com/2023/day/12) ⭐⭐

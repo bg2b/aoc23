@@ -4,6 +4,8 @@
 // ./doit 2 < input  # part 2
 // -O cuts part 2 down to under a second, just over a second otherwise
 
+// See much less silly solution in doit1.cc
+
 #include <iostream>
 #include <sstream>
 #include <string>
