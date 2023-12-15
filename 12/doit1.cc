@@ -29,30 +29,31 @@ size_t all_ways(unsigned ci, unsigned gi) {
   if (ci >= conds.length())
     // Nothing else in conds, are we at the end of groups?
     return gi == groups.size() ? 1 : 0;
-  if (conds[ci] == '.')
-    // Skip definite spaces
-    return all_ways(ci + 1, gi);
-  // Utility function to process a group that starts at ci
+  // Utility functions to process an empty space or a group
+  auto empty = [&]() -> size_t { return all_ways(ci + 1, gi); };
   auto group =
-    [&]() {
+    [&]() -> size_t {
       if (gi == groups.size())
         // No groups left
-        return size_t(0);
+        return 0;
       unsigned num_in_group = groups[gi];
       if (conds.length() - ci < num_in_group)
         // The group is too long
-        return size_t(0);
+        return 0;
       // The next num_in_group must all be #
       for (unsigned i = ci + 1; i < ci + num_in_group; ++i)
         if (conds[i] == '.')
           // Group would end too soon
-          return size_t(0);
+          return 0;
       if (ci + num_in_group < conds.size() && conds[ci + num_in_group] == '#')
         // Group could not end at the right place
-        return size_t(0);
+        return 0;
       // Consistent
       return all_ways(ci + num_in_group + 1, gi + 1);
     };
+  if (conds[ci] == '.')
+    // Skip definite spaces
+    return empty();
   if (conds[ci] == '#')
     // The next group must start here
     return group();
@@ -60,9 +61,7 @@ size_t all_ways(unsigned ci, unsigned gi) {
   if (auto p = ways.find({ci, gi}); p != ways.end())
     return p->second;
   // Count both ways of setting the last ?
-  auto &ans = ways[{ci, gi}];
-  ans = all_ways(ci + 1, gi) + group();
-  return ans;
+  return ways[{ci, gi}] = empty() + group();
 }
 
 void solve(int unfoldings) {
