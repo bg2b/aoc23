@@ -55,29 +55,23 @@ void control::tilt(int orient) {
               default: return platform[c][n - 1 - r];
               }
             };
-  // I initially had a list<int> for spaces where the rocks could roll
-  // to, but the dynamic allocation for the list is the main time
-  // sink.  Since there can't be more than n spaces in a column, I'll
-  // just preallocate a vector of size n and pop_front / push_back in
-  // that with a couple of pointers.
-  vector<int> spaces(n, 0);
   for (int c = 0; c < n; ++c) {
-    // Where are there free spaces in this column?
-    int *spaces_start = &spaces[0];
-    int *spaces_end = spaces_start;
+    // -1 means no place to roll
+    int const none = -1;
+    int roll_to = none;
     for (int r = 0; r < n; ++r) {
       char &what = at(r, c);
-      if (what == '.')
-        *spaces_end++ = r;
-      else if (what == '#')
+      if (what == '#')
         // None shall pass!
-        spaces_start = spaces_end;
-      else if (spaces_start < spaces_end) {
+        roll_to = none;
+      else if (roll_to == none) {
+        if (what == '.')
+          roll_to = r;
+      } else if (what == 'O') {
         // Make like a rock and roll
-        at(*spaces_start++, c) = 'O';
+        at(roll_to++, c) = 'O';
         // A new free space where the rock was
         what = '.';
-        *spaces_end++ = r;
       }
     }
   }
