@@ -42,3 +42,23 @@ has lots of interesting possible approaches for part 2) ⭐⭐
 + [Day 14: Parabolic Reflector Dish](https://adventofcode.com/2023/day/14) ⭐⭐
 if you enjoy seeing how fast you can roll, ⭐ otherwise
 + [Day 17: Clumsy Crucible](https://adventofcode.com/2023/day/17) ⭐⭐
++ [Day 18: Lavaduct Lagoon](https://adventofcode.com/2023/day/18) ⭐
+
+## Other years
+
+These are my AoC repositories for previous years (all C++, mostly the
+same format as this year).  Years that I though were the most fun are
+marked with ⭐ or ⭐⭐
+
++ [2022](https://github.com/bg2b/aoc22) ⭐⭐
++ [2021](https://github.com/bg2b/aoc21) ⭐ You always remember your
+first... \
+(This was the first year I participated live, and I did the solutions
+as two separate parts)
++ [2020](https://github.com/bg2b/aoc20)
++ [2019](https://github.com/bg2b/aoc19) Intcode FTW ⭐⭐
++ [2018](https://github.com/bg2b/aoc18) ⭐⭐
++ [2017](https://github.com/bg2b/aoc17) ⭐ for the advent calendar
+animation alone
++ [2016](https://github.com/bg2b/aoc16) ⭐
++ [2015](https://github.com/bg2b/aoc15)
