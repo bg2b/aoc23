@@ -31,11 +31,11 @@ coord required_dir(char ch) {
 // This is just brute force, which for part 2 is still in the range of
 // working provided that the search is reasonably optimized.
 //
-// Things can probably be made faster by observing that quite a lot of
-// the nodes for part 2 have degree 3, so it's only possible to visit
-// them once.  As a result, the connectivity to the finish node isn't
-// that high.  Maybe an immediate search after every choice to see
-// whether the finish is still reachable would prune a lot.
+// I tried a simple reachability search as a pruning heuristic (can
+// the finish still be reached?), but it seemed to just make things
+// slower.  It searches so fast that whatever it gains from that
+// pruning is lost in the extra overhead of each step.  Something more
+// clever is probably required.
 
 // List of successor node index, number of steps to get there
 using edges = vector<pair<int, int>>;
