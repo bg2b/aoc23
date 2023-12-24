@@ -43,6 +43,9 @@ has lots of interesting possible approaches for part 2) ⭐⭐
 if you enjoy seeing how fast you can roll, ⭐ otherwise
 + [Day 17: Clumsy Crucible](https://adventofcode.com/2023/day/17) ⭐⭐
 + [Day 18: Lavaduct Lagoon](https://adventofcode.com/2023/day/18) ⭐
++ [Day 20: Pulse Propagation](https://adventofcode.com/2023/day/20) ⭐⭐
++ [Day 21: Step Counter](https://adventofcode.com/2023/day/21) Sneaky,
+very sneaky... ⭐⭐
 
 ## Other years
 
