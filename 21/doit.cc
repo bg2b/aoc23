@@ -62,6 +62,7 @@ farm::farm(bool tiled_) : tiled(tiled_) {
     garden.push_back(line);
     assert(line.length() == garden.front().length());
   }
+  assert(saw_start);
   assert(garden.size() == garden.front().size());
 }
 
@@ -166,7 +167,7 @@ void part2() {
   // find the quadratic and extrapolate (see day 9 for the
   // extrapolation approach).
   //
-  // Just a few subtleties...
+  // There are a few subtleties...
   //
   // I want the reachable set of plots to be stable, so I'm going two
   // steps at a time.  That makes the actual step process faster
@@ -191,16 +192,16 @@ void part2() {
   // edges which let the diamond expand unimpeded.  So for a given
   // copy of the tile, you can calculate exactly when the expanding
   // diamond will reach it, and from that you can do a search within
-  // the single tile to see what would get covered at after the
-  // desired number of steps.  Since all of that sort of stuff gets
-  // repeated a zillion times, you can cache everything, figure out
-  // the unique cases, do some multiplies, and add everything up.
-  // It'll probably be much faster than the approach here.  I was
-  // initially going to do that, but I had doubts in my ability to get
-  // to debug everything.  Note that the example input for part 2 does
-  // *not* have the nice properties that would let this simpler method
-  // work.  Since the approach here is general, I could check against
-  // the numbers in the problem statement.
+  // the single tile to see what would get covered after the desired
+  // number of steps.  Since all of that sort of stuff gets repeated a
+  // zillion times, you can cache everything, figure out the unique
+  // cases, do some multiplies, and add everything up.  It'll probably
+  // be much faster than the approach here.  I was initially going to
+  // do that, but I had doubts in my ability to debug everything.
+  // Note that the example input for part 2 does *not* have the nice
+  // properties that would let this simpler method work.  Since the
+  // approach here is general, I could check against the numbers in
+  // the problem statement.
   farm frm(true);
   int n = frm.size();
   int const wanted_steps = 26501365;
@@ -223,9 +224,6 @@ void part2() {
   vector<size_t> sizes;
   optional<size_t> ans;
   while (!ans.has_value()) {
-    frm.step2(prev_frontier, frontier);
-    reached_size += frontier.size();
-    steps += 2;
     if (steps == wanted_steps)
       // Reached the required step count
       ans = reached_size;
@@ -234,6 +232,9 @@ void part2() {
       sizes.push_back(reached_size);
       ans = quadratic(sizes, (wanted_steps - steps) / (2 * n));
     }
+    frm.step2(prev_frontier, frontier);
+    reached_size += frontier.size();
+    steps += 2;
   }
   cout << ans.value() << '\n';
 }
