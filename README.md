@@ -66,3 +66,5 @@ as two separate parts)
 animation alone
 + [2016](https://github.com/bg2b/aoc16) ⭐
 + [2015](https://github.com/bg2b/aoc15)
+
+![Advent calendar for 2023](advent.png)
