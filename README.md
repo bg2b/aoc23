@@ -41,6 +41,9 @@ has lots of interesting possible approaches for part 2) ⭐⭐
 + [Day 12: Hot Springs](https://adventofcode.com/2023/day/12) ⭐⭐
 + [Day 14: Parabolic Reflector Dish](https://adventofcode.com/2023/day/14) ⭐⭐
 if you enjoy seeing how fast you can roll, ⭐ otherwise
++ [Day 16: The Floor Will Be Lava](https://adventofcode.com/2023/day/16)
+⭐ if you do it in a straightforward manner, ⭐⭐ if you want to try to be
+clever
 + [Day 17: Clumsy Crucible](https://adventofcode.com/2023/day/17) ⭐⭐
 + [Day 18: Lavaduct Lagoon](https://adventofcode.com/2023/day/18) ⭐
 + [Day 20: Pulse Propagation](https://adventofcode.com/2023/day/20) ⭐⭐
