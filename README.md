@@ -46,6 +46,7 @@ if you enjoy seeing how fast you can roll, ⭐ otherwise
 + [Day 20: Pulse Propagation](https://adventofcode.com/2023/day/20) ⭐⭐
 + [Day 21: Step Counter](https://adventofcode.com/2023/day/21) Sneaky,
 very sneaky... ⭐⭐
++ [Day 24: Never Tell Me The Odds](https://adventofcode.com/2023/day/24) ⭐
 
 ## Other years
 
