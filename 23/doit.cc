@@ -176,17 +176,15 @@ void trail_map::dot() const {
 int trail_map::longest_path(int n, int so_far, visited v) const {
   // Add n to the set of visited nodes
   v |= visited(1) << n;
-  while (true) {
-    if (n == 1)
-      // The finish
-      return so_far;
-    int result = -1;
-    for (auto [next, steps] : nodes[n].second)
-      if ((v & (visited(1) << next)) == 0)
-        // Max over unvisited successors
-        result = max(result, longest_path(next, so_far + steps, v));
-    return result;
-  }
+  if (n == 1)
+    // The finish
+    return so_far;
+  int result = -1;
+  for (auto [next, steps] : nodes[n].second)
+    if ((v & (visited(1) << next)) == 0)
+      // Max over unvisited successors
+      result = max(result, longest_path(next, so_far + steps, v));
+  return result;
 }
 
 void part1() { cout << trail_map(true).longest_path() << '\n'; }
