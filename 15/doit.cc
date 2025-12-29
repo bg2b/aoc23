@@ -9,6 +9,7 @@
 #include <array>
 #include <algorithm>
 #include <cctype>
+#include <cstdint>
 #include <cassert>
 
 using namespace std;

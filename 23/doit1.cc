@@ -10,6 +10,7 @@
 #include <tuple>
 #include <queue>
 #include <algorithm>
+#include <cstdint>
 #include <cassert>
 
 using namespace std;

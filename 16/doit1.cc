@@ -68,6 +68,7 @@
 #include <array>
 #include <tuple>
 #include <stdexcept>
+#include <cstdint>
 #include <cassert>
 
 using namespace std;

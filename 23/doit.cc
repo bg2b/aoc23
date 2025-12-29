@@ -10,6 +10,7 @@
 #include <vector>
 #include <array>
 #include <algorithm>
+#include <cstdint>
 #include <cassert>
 
 using namespace std;
