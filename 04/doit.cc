@@ -39,11 +39,11 @@ void part1() {
 void part2() {
   map<int, int> num_copies;
   solve([&](int cn, int won) {
-          int num_cn = ++num_copies[cn];
-          for (int won_card = cn + 1; won_card <= cn + won; ++won_card)
-            num_copies[won_card] += num_cn;
-          return num_cn;
-        });
+    int num_cn = ++num_copies[cn];
+    for (int won_card = cn + 1; won_card <= cn + won; ++won_card)
+      num_copies[won_card] += num_cn;
+    return num_cn;
+  });
 }
 
 int main(int argc, char **argv) {

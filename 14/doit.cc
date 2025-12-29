@@ -49,13 +49,17 @@ void control::tilt(int orient) {
   // The algorithm is written just for "north", and the coordinate
   // mucking for orientation happens in the utility function at()
   auto at = [&](int r, int c) -> char & {
-              switch (orient) {
-              case north: return platform[r][c];
-              case west: return platform[c][r];
-              case south: return platform[n - 1 - r][c];
-              default: return platform[c][n - 1 - r];
-              }
-            };
+    switch (orient) {
+    case north:
+      return platform[r][c];
+    case west:
+      return platform[c][r];
+    case south:
+      return platform[n - 1 - r][c];
+    default:
+      return platform[c][n - 1 - r];
+    }
+  };
   for (int c = 0; c < n; ++c) {
     // -1 means no place to roll
     int const none = -1;

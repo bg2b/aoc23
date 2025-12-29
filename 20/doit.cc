@@ -213,8 +213,8 @@ size_t network::part2() {
   id rx = name_to_id("rx");
   assert(mods[rx] && mods[rx]->input.size() == 1);
   auto conj = [&](id cid) {
-                return dynamic_cast<conjunct const *>(mods[cid].get());
-              };
+    return dynamic_cast<conjunct const *>(mods[cid].get());
+  };
   // The conjunction feeding rx
   auto main_conj = conj(mods[rx]->input.front());
   // The conjunction inputs to that conjunction and how many times the

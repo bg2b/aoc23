@@ -38,10 +38,10 @@ void read() {
     if (line.front() == '{') {
       // A part
       auto val = [&](char const *what) {
-                   auto pos = line.find(what);
-                   assert(pos != string::npos);
-                   return atoi(line.c_str() + pos + 2);
-                 };
+        auto pos = line.find(what);
+        assert(pos != string::npos);
+        return atoi(line.c_str() + pos + 2);
+      };
       part p{val("x="), val("m="), val("a="), val("s=")};
       parts.push_back(p);
       continue;
@@ -130,10 +130,10 @@ pair<range, range> split(range const &rng, test const &t) {
     // swap the parts at the end
     ++v;
   auto maybe_swap = [&](pair<range, range> const &result) {
-                      if (less)
-                        return result;
-                      return pair{result.second, result.first};
-                    };
+    if (less)
+      return result;
+    return pair{result.second, result.first};
+  };
   auto const &[lower, upper] = rng;
   if (upper[idx] < v)
     // Whole range is less than v, non-passing part is empty

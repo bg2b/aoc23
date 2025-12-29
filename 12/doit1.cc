@@ -31,26 +31,25 @@ size_t all_ways(unsigned ci, unsigned gi) {
     return gi == groups.size() ? 1 : 0;
   // Utility functions to process an empty space or a group
   auto empty = [&]() -> size_t { return all_ways(ci + 1, gi); };
-  auto group =
-    [&]() -> size_t {
-      if (gi == groups.size())
-        // No groups left
+  auto group = [&]() -> size_t {
+    if (gi == groups.size())
+      // No groups left
+      return 0;
+    unsigned num_in_group = groups[gi];
+    if (conds.length() - ci < num_in_group)
+      // The group is too long
+      return 0;
+    // The next num_in_group must all be #
+    for (unsigned i = ci + 1; i < ci + num_in_group; ++i)
+      if (conds[i] == '.')
+        // Group would end too soon
         return 0;
-      unsigned num_in_group = groups[gi];
-      if (conds.length() - ci < num_in_group)
-        // The group is too long
-        return 0;
-      // The next num_in_group must all be #
-      for (unsigned i = ci + 1; i < ci + num_in_group; ++i)
-        if (conds[i] == '.')
-          // Group would end too soon
-          return 0;
-      if (ci + num_in_group < conds.size() && conds[ci + num_in_group] == '#')
-        // Group could not end at the right place
-        return 0;
-      // Consistent
-      return all_ways(ci + num_in_group + 1, gi + 1);
-    };
+    if (ci + num_in_group < conds.size() && conds[ci + num_in_group] == '#')
+      // Group could not end at the right place
+      return 0;
+    // Consistent
+    return all_ways(ci + num_in_group + 1, gi + 1);
+  };
   if (conds[ci] == '.')
     // Skip definite spaces
     return empty();
@@ -80,8 +79,8 @@ void solve(int unfoldings) {
     auto unfolded_groups(groups);
     for (int _ = 1; _ < unfoldings; ++_) {
       unfolded_conds += conds;
-      unfolded_groups.insert(unfolded_groups.end(),
-                             groups.begin(), groups.end());
+      unfolded_groups.insert(unfolded_groups.end(), groups.begin(),
+                             groups.end());
     }
     unfolded_conds.pop_back();
     conds = unfolded_conds;

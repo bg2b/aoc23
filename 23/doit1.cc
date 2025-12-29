@@ -175,30 +175,29 @@ void trail_map::build_graph() {
     }
   }
   // Sort for maximum spanning tree computation
-  sort(all_edges.begin(), all_edges.end(),
-       [](edge const &e1, edge const &e2) {
-         auto [i1, j1, steps1] = e1;
-         auto [i2, j2, steps2] = e2;
-         if (steps1 != steps2)
-           return steps1 > steps2;
-         if (i1 != i2)
-           return i1 < i2;
-         return j1 < j2;
-       });
+  sort(all_edges.begin(), all_edges.end(), [](edge const &e1, edge const &e2) {
+    auto [i1, j1, steps1] = e1;
+    auto [i2, j2, steps2] = e2;
+    if (steps1 != steps2)
+      return steps1 > steps2;
+    if (i1 != i2)
+      return i1 < i2;
+    return j1 < j2;
+  });
 }
-
 
 void trail_map::dot() const {
   cout << (slippery ? "di" : "") << "graph G {\n";
   auto name = [](coord const &c) {
-                return '"' + to_string(c[0]) + ',' + to_string(c[1]) + '"';
-              };
+    return '"' + to_string(c[0]) + ',' + to_string(c[1]) + '"';
+  };
   auto edge = slippery ? " -> " : " -- ";
   for (auto const &[c, adj] : nodes)
     for (auto [next_index, steps] : adj) {
       auto next = nodes[next_index].first;
       if (slippery || c < next)
-        cout << name(c) << edge << name(next) << " [label=\"" << steps << "\"];\n";
+        cout << name(c) << edge << name(next) << " [label=\"" << steps
+             << "\"];\n";
     }
   cout << "}\n";
 }
@@ -210,27 +209,27 @@ int trail_map::max_spanning_tree(visited v) const {
   for (int i = 0; i < N; ++i)
     link[i] = i;
   auto find = [&](int i) {
-                int i1 = i;
-                while (link[i1] != i1)
-                  i1 = link[i1];
-                link[i] = i1;
-                return i1;
-              };
+    int i1 = i;
+    while (link[i1] != i1)
+      i1 = link[i1];
+    link[i] = i1;
+    return i1;
+  };
   auto onion = [&](int i, int j) {
-                 if ((v & ((visited(1) << i) | (visited(1) << j))) != 0)
-                   // At least one of these nodes has already been
-                   // visited, so the edge can't be part of the tree
-                   return false;
-                 i = find(i);
-                 j = find(j);
-                 if (i == j)
-                   // Not part of the spanning tree since it would
-                   // complete a cycle
-                   return false;
-                 link[max(i, j)] = min(i, j);
-                 // Edge was added to the tree
-                 return true;
-               };
+    if ((v & ((visited(1) << i) | (visited(1) << j))) != 0)
+      // At least one of these nodes has already been
+      // visited, so the edge can't be part of the tree
+      return false;
+    i = find(i);
+    j = find(j);
+    if (i == j)
+      // Not part of the spanning tree since it would
+      // complete a cycle
+      return false;
+    link[max(i, j)] = min(i, j);
+    // Edge was added to the tree
+    return true;
+  };
   int max_steps = 0;
   for (auto [i, j, steps] : all_edges)
     if (onion(i, j))
@@ -244,9 +243,9 @@ int trail_map::longest_path() const {
   using state = tuple<int, int, visited, int>;
   priority_queue<state> Q;
   auto add_state = [&](int n, visited v, int so_far) {
-                     int max_rest = max_spanning_tree(v);
-                     Q.push({so_far + max_rest, n, v, so_far});
-                   };
+    int max_rest = max_spanning_tree(v);
+    Q.push({so_far + max_rest, n, v, so_far});
+  };
   add_state(index(start), 0, 0);
   int the_end = index(finish);
   int best = 0;
@@ -266,8 +265,8 @@ int trail_map::longest_path() const {
     v |= visited(1) << n;
     // Check all non-visited successors
     for (auto [next, steps] : nodes[n].second)
-    if ((v & (visited(1) << next)) == 0)
-      add_state(next, v, so_far + steps);
+      if ((v & (visited(1) << next)) == 0)
+        add_state(next, v, so_far + steps);
   }
   return best;
 }

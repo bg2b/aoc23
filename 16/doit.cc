@@ -133,9 +133,7 @@ bool cave::in_bounds(coord const &c) const {
   return c[0] >= 0 && c[0] < width() && c[1] >= 0 && c[1] < height();
 }
 
-tile &cave::at(coord const &c) {
-  return layout[height() - 1 - c[1]][c[0]];
-}
+tile &cave::at(coord const &c) { return layout[height() - 1 - c[1]][c[0]]; }
 
 int cave::shoot(coord const &start, int start_dir) {
   vector<pair<coord, int>> to_shoot;

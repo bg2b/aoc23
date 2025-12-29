@@ -72,7 +72,8 @@ bool consistent(string &conds, vector<int> &groups) {
       return false;
     if (any_unknown)
       // Last part has ?'s and could be one group; just check sizes
-      return min_grps(conds) <= groups.size() && groups.size() <= max_grps(conds);
+      return min_grps(conds) <= groups.size() &&
+             groups.size() <= max_grps(conds);
     // Looking at a real group
     assert(conds[p] == '#' && !groups.empty());
     if (len - p != groups.back())
@@ -127,8 +128,8 @@ void solve(int unfoldings) {
     auto unfolded_groups(groups);
     for (int _ = 1; _ < unfoldings; ++_) {
       unfolded_conds += conds;
-      unfolded_groups.insert(unfolded_groups.end(),
-                             groups.begin(), groups.end());
+      unfolded_groups.insert(unfolded_groups.end(), groups.begin(),
+                             groups.end());
     }
     unfolded_conds.pop_back();
     conds = unfolded_conds;

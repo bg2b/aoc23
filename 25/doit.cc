@@ -15,13 +15,12 @@ using namespace std;
 void part1() {
   // Collect edges
   vector<string> names;
-  auto index_of =
-    [&](string const &comp) -> unsigned {
-      if (auto p = find(names.begin(), names.end(), comp); p != names.end())
-        return p - names.begin();
-      names.push_back(comp);
-      return names.size() - 1;
-    };
+  auto index_of = [&](string const &comp) -> unsigned {
+    if (auto p = find(names.begin(), names.end(), comp); p != names.end())
+      return p - names.begin();
+    names.push_back(comp);
+    return names.size() - 1;
+  };
   vector<pair<unsigned, unsigned>> edges;
   unsigned lhs = 0;
   string comp;
@@ -45,23 +44,23 @@ void part1() {
     for (unsigned i = 0; i < n; ++i)
       link[i] = i;
     auto find = [&](unsigned i) {
-                  unsigned i1 = i;
-                  while (link[i1] != i1)
-                    i1 = link[i1];
-                  link[i] = i1;
-                  return i1;
-                };
+      unsigned i1 = i;
+      while (link[i1] != i1)
+        i1 = link[i1];
+      link[i] = i1;
+      return i1;
+    };
     unsigned num_linked = 0;
     auto link_if_disjoint = [&](unsigned i, unsigned j) {
-                              if (i == j)
-                                return false;
-                              if (i > j)
-                                swap(i, j);
-                              link[j] = i;
-                              ++num_linked;
-                              // Are there two components left?
-                              return num_linked == n - 2;
-                            };
+      if (i == j)
+        return false;
+      if (i > j)
+        swap(i, j);
+      link[j] = i;
+      ++num_linked;
+      // Are there two components left?
+      return num_linked == n - 2;
+    };
     // Link until there are two components remaining
     for (auto [i, j] : edges)
       if (link_if_disjoint(find(i), find(j)))
@@ -82,9 +81,7 @@ void part1() {
   }
 }
 
-void part2() {
-  cout << "Push The Big Red Button\n";
-}
+void part2() { cout << "Push The Big Red Button\n"; }
 
 int main(int argc, char **argv) {
   if (argc != 2) {

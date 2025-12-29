@@ -19,14 +19,13 @@ vector<string> steps;
 void read() {
   char c;
   steps.push_back("");
-  while (cin >> c) {
+  while (cin >> c)
     if (c == '\n')
       continue;
     else if (c == ',')
       steps.push_back("");
     else
       steps.back().push_back(c);
-  }
 }
 
 uint8_t HASH(string const &s) {

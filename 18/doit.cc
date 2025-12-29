@@ -26,7 +26,7 @@ coord operator+(coord const &c1, coord const &c2) {
   return {c1[0] + c2[0], c1[1] + c2[1]};
 }
 
-coord operator*(long sc, coord const &c) { return {sc*c[0], sc*c[1]}; }
+coord operator*(long sc, coord const &c) { return {sc * c[0], sc * c[1]}; }
 
 // Green's theorem gives us the area, and perimeter is trivial, but
 // counting squares is a little subtle.  Consider R3,D3,L3,U3:
@@ -55,9 +55,9 @@ void solve(bool from_color) {
   long twice_area = 0;
   long perim = 0;
   auto update = [&](coord const &c) {
-                  twice_area += (c[0] + pos[0]) * (c[1] - pos[1]);
-                  pos = c;
-                };
+    twice_area += (c[0] + pos[0]) * (c[1] - pos[1]);
+    pos = c;
+  };
   char dir;
   int dist;
   string color;

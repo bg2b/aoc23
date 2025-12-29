@@ -1,0 +1,23 @@
+# clang-format configuration for Advent of Code solutions
+# Based on LLVM style with customizations to match existing code
+
+# Base style: LLVM
+# - 2 space indentation
+# - Pointer/reference aligned right (int *p, int &r)
+# - Opening braces on same line (Attach)
+# - 80 column limit
+# - No namespace indentation
+
+BasedOnStyle: LLVM
+
+# Customizations from base LLVM style:
+
+QualifierAlignment: Right
+ReferenceAlignment: Right
+SortIncludes: Never
+RemoveBracesLLVM: true
+RemoveParentheses: ReturnStatement
+SpaceAroundPointerQualifiers: Both
+SpaceBeforeInheritanceColon: false
+SpacesBeforeTrailingComments: 2
+Standard: c++17

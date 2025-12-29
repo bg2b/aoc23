@@ -50,9 +50,9 @@ vec direction(vec const &v) {
 vector<hailstone> read() {
   vector<hailstone> result;
   auto read_vec = [](vec &v) {
-                    char comma;
-                    return bool(cin >> v[0] >> comma >> v[1] >> comma >> v[2]);
-                  };
+    char comma;
+    return bool(cin >> v[0] >> comma >> v[1] >> comma >> v[2]);
+  };
   vec pos;
   vec vel;
   string at;
@@ -63,8 +63,8 @@ vector<hailstone> read() {
 
 // Solve [a b] == [e]
 //       [c d]    [f]
-pair<double, double> solve2x2(double a, double b, double c, double d,
-                              double e, double f) {
+pair<double, double> solve2x2(double a, double b, double c, double d, double e,
+                              double f) {
   double det = a * d - b * c;
   if (det == 0.0)
     return {nan(""), nan("")};
@@ -104,8 +104,8 @@ bool xy_intersect_in_box(hailstone const &h1, hailstone const &h2) {
   double x2t2 = x2 + vx2 * t2;
   double y2t2 = y2 + vy2 * t2;
   auto close = [](double a, double b) {
-                 return fabs(a - b) < 1e-10 * (fabs(a) + fabs(b));
-               };
+    return fabs(a - b) < 1e-10 * (fabs(a) + fabs(b));
+  };
   assert(close(x1t1, x2t2) && close(y1t1, y2t2));
   double const ll = 200000000000000.0;
   double const ur = 400000000000000.0;
@@ -166,8 +166,7 @@ long dot(vec const &a, vec const &b) {
 // the second stone doesn't define a unique plane.  Probably the input
 // is constructed such that these never happen, but the routine should
 // return both throw position and velocity {0, 0, 0} in such an event.
-pair<vec, vec> thread_the_needle(hailstone const &h1,
-                                 hailstone const &h2,
+pair<vec, vec> thread_the_needle(hailstone const &h1, hailstone const &h2,
                                  hailstone const &h3) {
   auto [p1, v1] = h1;
   auto [p2, v2] = h2;
@@ -193,15 +192,15 @@ pair<vec, vec> thread_the_needle(hailstone const &h1,
   // integers, I'll scale the whole equation by v'*v.
   auto vv = dot(v, v);
   auto hit_time = [&](vec hp, vec hv) {
-                    // Project
-                    hp = vv * hp - dot(v, hp) * v;
-                    hv = vv * hv - dot(v, hv) * v;
-                    // It's a linear equation; just take one nonzero
-                    // coordinate and solve
-                    int x = nonzero_index(hv);
-                    assert(hp[x] % hv[x] == 0);
-                    return -hp[x] / hv[x];
-                  };
+    // Project
+    hp = vv * hp - dot(v, hp) * v;
+    hv = vv * hv - dot(v, hv) * v;
+    // It's a linear equation; just take one nonzero
+    // coordinate and solve
+    int x = nonzero_index(hv);
+    assert(hp[x] % hv[x] == 0);
+    return -hp[x] / hv[x];
+  };
   auto t2 = hit_time(p2, v2);
   auto t3 = hit_time(p3, v3);
   if (t2 == t3)
@@ -228,14 +227,14 @@ void part2() {
   // three other stones
   assert(v != vec({0, 0, 0}));
   auto is_hit = [&](hailstone const &h) {
-                  auto [hp, hv] = h;
-                  // hp + t*hv = p + t*v
-                  auto dp = p - hp;
-                  auto dv = hv - v;
-                  int x = nonzero_index(dv);
-                  auto t = dp[x] / dv[x];
-                  return hp + t * hv == p + t * v;
-                };
+    auto [hp, hv] = h;
+    // hp + t*hv = p + t*v
+    auto dp = p - hp;
+    auto dv = hv - v;
+    int x = nonzero_index(dv);
+    auto t = dp[x] / dv[x];
+    return hp + t * hv == p + t * v;
+  };
   // Just to verify...
   for (auto const &h : stones)
     assert(is_hit(h));

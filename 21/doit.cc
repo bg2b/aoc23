@@ -74,11 +74,11 @@ char farm::at(coord c) const {
       // Implicit wall in the finite case
       return '#';
     auto wrap = [=](int x) {
-                  x %= n;
-                  if (x < 0)
-                    x += n;
-                  return x;
-                };
+      x %= n;
+      if (x < 0)
+        x += n;
+      return x;
+    };
     c = {wrap(c[0]), wrap(c[1])};
   }
   return garden[c[1]][c[0]];
@@ -116,8 +116,8 @@ void farm::step2(vector<coord> &prev, vector<coord> &frontier) const {
                  back_inserter(next_minus_prev));
   // The move also clears frontier...
   prev = move(frontier);
-  set_difference(next_minus_prev.begin(), next_minus_prev.end(),
-                 prev.begin(), prev.end(), back_inserter(frontier));
+  set_difference(next_minus_prev.begin(), next_minus_prev.end(), prev.begin(),
+                 prev.end(), back_inserter(frontier));
 }
 
 void part1() {
@@ -142,11 +142,11 @@ optional<size_t> quadratic(vector<size_t> const &vals, size_t x) {
     // Not enough data
     return nullopt;
   auto diffs = [](vector<size_t> const &v) {
-                 vector<size_t> result;
-                 for (size_t i = 0; i + 1 < v.size(); ++i)
-                   result.push_back(v[i + 1] - v[i]);
-                 return result;
-               };
+    vector<size_t> result;
+    for (size_t i = 0; i + 1 < v.size(); ++i)
+      result.push_back(v[i + 1] - v[i]);
+    return result;
+  };
   auto d1 = diffs(vals);
   auto d2 = diffs(d1);
   for (size_t i = 0; i < stability; ++i)

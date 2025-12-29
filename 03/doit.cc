@@ -93,7 +93,7 @@ void schematic::total_gear_ratios() const {
   map<coord, vector<int>> possible_gears;
   for (auto const &[xy, n] : nums) {
     auto pxy = part(xy, n);
-    if (pxy && part(*pxy) ==  '*')
+    if (pxy && part(*pxy) == '*')
       possible_gears[*pxy].push_back(n);
   }
   int total = 0;

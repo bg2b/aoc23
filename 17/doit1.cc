@@ -31,7 +31,7 @@ coord operator+(coord const &c1, coord const &c2) {
   return {c1[0] + c2[0], c1[1] + c2[1]};
 }
 
-coord operator*(int sc, coord const &c) { return {sc*c[0], sc*c[1]}; }
+coord operator*(int sc, coord const &c) { return {sc * c[0], sc * c[1]}; }
 
 struct city {
   // Minimum and maximum required moves of a crucible
@@ -61,8 +61,8 @@ struct city {
   int min_loss() const;
 };
 
-city::city(int min_steps_, int max_steps_) :
-  min_steps(min_steps_), max_steps(max_steps_) {
+city::city(int min_steps_, int max_steps_)
+    : min_steps(min_steps_), max_steps(max_steps_) {
   string line;
   while (getline(cin, line)) {
     heat_loss.push_back(line);
@@ -81,23 +81,23 @@ void city::compute_unrestricted() {
   auto at = [&](coord const &c) -> int & { return unrestricted[c[1]][c[0]]; };
   // Priority queue (not really a queue, but whatevs)
   auto ll = [&](coord const &c1, coord const &c2) {
-              int d1 = at(c1);
-              int d2 = at(c2);
-              if (d1 != d2)
-                return d1 < d2;
-              return c1 < c2;
-            };
+    int d1 = at(c1);
+    int d2 = at(c2);
+    if (d1 != d2)
+      return d1 < d2;
+    return c1 < c2;
+  };
   set<coord, decltype(ll)> Q(ll);
   // Update the loss for a state; if less than the previous loss to
   // get to the state, update Q
   auto update = [&](coord const &c, int loss) {
-                  if (loss >= at(c))
-                    return;
-                  if (auto p = Q.find(c); p != Q.end())
-                    Q.erase(p);
-                  at(c) = loss;
-                  Q.insert(c);
-                };
+    if (loss >= at(c))
+      return;
+    if (auto p = Q.find(c); p != Q.end())
+      Q.erase(p);
+    at(c) = loss;
+    Q.insert(c);
+  };
   update(factory, 0);
   while (!Q.empty()) {
     auto c = *Q.begin();
@@ -125,27 +125,27 @@ int city::min_loss() const {
   using state = tuple<coord, int, int>;
   // Encode a state
   auto encode = [&](state const &s) {
-                  auto [c, dir, steps_to_turn] = s;
-                  int index = c[0];
-                  index *= h;
-                  index += c[1];
-                  index *= max_steps + 1;
-                  index += steps_to_turn;
-                  index *= 4;
-                  index += dir;
-                  return index;
-                };
+    auto [c, dir, steps_to_turn] = s;
+    int index = c[0];
+    index *= h;
+    index += c[1];
+    index *= max_steps + 1;
+    index += steps_to_turn;
+    index *= 4;
+    index += dir;
+    return index;
+  };
   // Decode
   auto decode = [&](int enc) {
-                  int dir = enc & 0x3;
-                  enc >>= 2;
-                  int steps_to_turn = enc % (max_steps + 1);
-                  enc /= max_steps + 1;
-                  int c1 = enc % h;
-                  enc /= h;
-                  int c0 = enc;
-                  return state{coord{c0, c1}, dir, steps_to_turn};
-                };
+    int dir = enc & 0x3;
+    enc >>= 2;
+    int steps_to_turn = enc % (max_steps + 1);
+    enc /= max_steps + 1;
+    int c1 = enc % h;
+    enc /= h;
+    int c0 = enc;
+    return state{coord{c0, c1}, dir, steps_to_turn};
+  };
   // Quick check on the encoding
   state rand{coord{w / 2, h - 1}, 2, max_steps - 2};
   auto checkrand = decode(encode(rand));
@@ -163,32 +163,32 @@ int city::min_loss() const {
   // explored came from Q[nextQ].
   unsigned nextQ = 0;
   auto update = [&](state const &s, int loss) {
-                  int e = encode(s);
-                  int &current = at_enc(e);
-                  if (loss >= current)
-                    return;
-                  if (current < infinity) {
-                    // Remove from Q.  Can get away without this and
-                    // it might even be always OK (and it does seem
-                    // epsilon faster), but it feels iffy...
-                    unsigned qpos = current + min_to_factory(get<0>(s));
-                    assert(qpos < Q.size());
-                    // Ugh...
-                    auto p = find(Q[qpos].begin(), Q[qpos].end(), e);
-                    if (p != Q[qpos].end())
-                      Q[qpos].erase(p);
-                  }
-                  current = loss;
-                  unsigned qpos = loss + min_to_factory(get<0>(s));
-                  if (qpos >= Q.size())
-                    // Need more space in Q
-                    Q.resize(qpos + 100);
-                  Q[qpos].push_back(e);
-                  // It's possible that we've found a faster way to a
-                  // state and that nextQ has already advanced past
-                  // qpos; back up if needed
-                  nextQ = min(nextQ, qpos);
-                };
+    int e = encode(s);
+    int &current = at_enc(e);
+    if (loss >= current)
+      return;
+    if (current < infinity) {
+      // Remove from Q.  Can get away without this and
+      // it might even be always OK (and it does seem
+      // epsilon faster), but it feels iffy...
+      unsigned qpos = current + min_to_factory(get<0>(s));
+      assert(qpos < Q.size());
+      // Ugh...
+      auto p = find(Q[qpos].begin(), Q[qpos].end(), e);
+      if (p != Q[qpos].end())
+        Q[qpos].erase(p);
+    }
+    current = loss;
+    unsigned qpos = loss + min_to_factory(get<0>(s));
+    if (qpos >= Q.size())
+      // Need more space in Q
+      Q.resize(qpos + 100);
+    Q[qpos].push_back(e);
+    // It's possible that we've found a faster way to a
+    // state and that nextQ has already advanced past
+    // qpos; back up if needed
+    nextQ = min(nextQ, qpos);
+  };
   // Can start either direction
   update({{0, 0}, 0, max_steps}, 0);
   update({{0, 0}, 1, max_steps}, 0);

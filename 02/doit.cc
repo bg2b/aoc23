@@ -28,16 +28,19 @@ struct game {
     return d[0] <= 12 && d[1] <= 13 && d[2] <= 14 ? id : 0;
   }
 
-  int power() const { auto d = required(); return d[0] * d[1] * d[2]; }
+  int power() const {
+    auto d = required();
+    return d[0] * d[1] * d[2];
+  }
 };
 
 game::game(string const &s) {
   stringstream ss(s);
   string Game, colon;
   ss >> Game >> id >> colon;
-  for (bool round_expected = true; round_expected; ) {
+  for (bool round_expected = true; round_expected;) {
     dice rgb{0, 0, 0};
-    for (bool rgb_expected = true; rgb_expected; ) {
+    for (bool rgb_expected = true; rgb_expected;) {
       int num;
       string color;
       ss >> num >> color;

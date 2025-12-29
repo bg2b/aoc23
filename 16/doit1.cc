@@ -146,7 +146,10 @@ struct tile {
 
   // Save beam_dirs from a strongly-connected component analysis.
   // (Also resets beam_dirs.)
-  void record_scc() { scc_beam_dirs.push_back(beam_dirs); reset(); }
+  void record_scc() {
+    scc_beam_dirs.push_back(beam_dirs);
+    reset();
+  }
 
   // For my own sanity...
   static void verify();
@@ -262,9 +265,7 @@ bool cave::in_bounds(coord const &c) const {
   return c[0] >= 0 && c[0] < width() && c[1] >= 0 && c[1] < height();
 }
 
-tile &cave::at(coord const &c) {
-  return layout[height() - 1 - c[1]][c[0]];
-}
+tile &cave::at(coord const &c) { return layout[height() - 1 - c[1]][c[0]]; }
 
 vector<node> cave::successors(node const &v) {
   auto [c, dir] = v;
@@ -286,41 +287,40 @@ void cave::tarjan() {
   vector<node> stack;
   // Auxiliary function returning a node's associated info
   auto info = [&](node const &v) -> scc_state & {
-                auto [c, dir] = v;
-                return at(c).scc[dir];
-              };
+    auto [c, dir] = v;
+    return at(c).scc[dir];
+  };
   // Basically the pseudo-code from the Wikipedia article cited in the
   // explanation at the start
-  auto connect =
-    [&](node const &v, auto &connect_) -> void {
-      auto &[v_index, v_lowlink, v_on_stack] = info(v);
-      assert(v_index == -1);
-      v_index = next_index++;
-      v_lowlink = v_index;
-      stack.push_back(v);
-      v_on_stack = true;
-      for (auto w : successors(v)) {
-        auto &[w_index, w_lowlink, w_on_stack] = info(w);
-        if (w_index == -1) {
-          connect_(w, connect_);
-          v_lowlink = min(v_lowlink, w_lowlink);
-        } else if (w_on_stack)
-          v_lowlink = min(v_lowlink, w_index);
+  auto connect = [&](node const &v, auto &connect_) -> void {
+    auto &[v_index, v_lowlink, v_on_stack] = info(v);
+    assert(v_index == -1);
+    v_index = next_index++;
+    v_lowlink = v_index;
+    stack.push_back(v);
+    v_on_stack = true;
+    for (auto w : successors(v)) {
+      auto &[w_index, w_lowlink, w_on_stack] = info(w);
+      if (w_index == -1) {
+        connect_(w, connect_);
+        v_lowlink = min(v_lowlink, w_lowlink);
+      } else if (w_on_stack)
+        v_lowlink = min(v_lowlink, w_index);
+    }
+    if (v_lowlink == v_index) {
+      vector<node> scc;
+      while (true) {
+        auto w = stack.back();
+        stack.pop_back();
+        get<2>(info(w)) = false;
+        scc.push_back(w);
+        if (w == v)
+          break;
       }
-      if (v_lowlink == v_index) {
-        vector<node> scc;
-        while (true) {
-          auto w = stack.back();
-          stack.pop_back();
-          get<2>(info(w)) = false;
-          scc.push_back(w);
-          if (w == v)
-            break;
-        }
-        if (scc.size() > 1)
-          nontrivial_sccs.emplace_back(move(scc));
-      }
-    };
+      if (scc.size() > 1)
+        nontrivial_sccs.emplace_back(move(scc));
+    }
+  };
   // Scan all nodes to find SCCs
   for (int x = 0; x < width(); ++x)
     for (int y = 0; y < height(); ++y)

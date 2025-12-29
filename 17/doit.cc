@@ -27,7 +27,7 @@ coord operator+(coord const &c1, coord const &c2) {
   return {c1[0] + c2[0], c1[1] + c2[1]};
 }
 
-coord operator*(int sc, coord const &c) { return {sc*c[0], sc*c[1]}; }
+coord operator*(int sc, coord const &c) { return {sc * c[0], sc * c[1]}; }
 
 struct city {
   // Minimum and maximum required moves of a crucible
@@ -50,8 +50,8 @@ struct city {
   int min_loss() const;
 };
 
-city::city(int min_steps_, int max_steps_) :
-  min_steps(min_steps_), max_steps(max_steps_) {
+city::city(int min_steps_, int max_steps_)
+    : min_steps(min_steps_), max_steps(max_steps_) {
   string line;
   while (getline(cin, line)) {
     heat_loss.push_back(line);
@@ -77,38 +77,38 @@ int city::min_loss() const {
   // be lazy and use a map, but this is one case where it actually
   // matters for the speed...
   auto hash = [](state const &s) {
-                auto [c, _, steps_to_turn] = s;
-                return (c[0] * 1000 + c[1]) * 1000 + steps_to_turn;
-              };
+    auto [c, _, steps_to_turn] = s;
+    return (c[0] * 1000 + c[1]) * 1000 + steps_to_turn;
+  };
   size_t sz_guess = 5 * width() * height();
   unordered_map<state, int, decltype(hash)> so_far(sz_guess, hash);
   // Priority queue (not really a queue, but whatevs)
   auto ll = [&](state const &s1, state const &s2) {
-              int d1 = so_far.at(s1);
-              int d2 = so_far.at(s2);
-              if (d1 != d2)
-                // Order by loss, so upon getting to the factory, it's
-                // guaranteed to be the minimum loss
-                return d1 < d2;
-              // Any random order here
-              return s1 < s2;
-            };
+    int d1 = so_far.at(s1);
+    int d2 = so_far.at(s2);
+    if (d1 != d2)
+      // Order by loss, so upon getting to the factory, it's
+      // guaranteed to be the minimum loss
+      return d1 < d2;
+    // Any random order here
+    return s1 < s2;
+  };
   set<state, decltype(ll)> Q(ll);
   // Update the loss for a state; if less than the previous loss to
   // get to the state, update Q
   auto update = [&](state const &s, int loss) {
-                  if (auto p = so_far.find(s); p != so_far.end()) {
-                    if (loss >= p->second)
-                      // Was no better
-                      return;
-                    // Be sure to remove from Q before mucking with
-                    // the order
-                    if (auto p = Q.find(s); p != Q.end())
-                      Q.erase(p);
-                  }
-                  so_far.insert_or_assign(s, loss);
-                  Q.insert(s);
-                };
+    if (auto p = so_far.find(s); p != so_far.end()) {
+      if (loss >= p->second)
+        // Was no better
+        return;
+      // Be sure to remove from Q before mucking with
+      // the order
+      if (auto p = Q.find(s); p != Q.end())
+        Q.erase(p);
+    }
+    so_far.insert_or_assign(s, loss);
+    Q.insert(s);
+  };
   // Can start either direction
   update({{0, 0}, {+1, 0}, max_steps}, 0);
   update({{0, 0}, {0, +1}, max_steps}, 0);

@@ -51,11 +51,11 @@ struct brick {
 brick::brick(string const &s) {
   stringstream ss(s);
   auto pt = [&]() -> point {
-              int x, y, z;
-              char comma;
-              ss >> x >> comma >> y >> comma >> z;
-              return {z, x, y};
-            };
+    int x, y, z;
+    char comma;
+    ss >> x >> comma >> y >> comma >> z;
+    return {z, x, y};
+  };
   auto p1 = pt();
   ss.ignore(1);
   auto p2 = pt();
@@ -67,8 +67,8 @@ bool brick::supports(brick const &b) const {
   if (ur[0] + 1 != b.ll[0])
     // b either hasn't reached here, or it's already fallen past
     return false;
-  return (overlaps(ll[1], ur[1], b.ll[1], b.ur[1]) &&
-          overlaps(ll[2], ur[2], b.ll[2], b.ur[2]));
+  return overlaps(ll[1], ur[1], b.ll[1], b.ur[1]) &&
+         overlaps(ll[2], ur[2], b.ll[2], b.ur[2]);
 }
 
 bool operator<(brick const &b1, brick const &b2) {

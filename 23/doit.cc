@@ -158,18 +158,18 @@ void trail_map::build_graph() {
   }
 }
 
-
 void trail_map::dot() const {
   cout << (slippery ? "di" : "") << "graph G {\n";
   auto name = [](coord const &c) {
-                return '"' + to_string(c[0]) + ',' + to_string(c[1]) + '"';
-              };
+    return '"' + to_string(c[0]) + ',' + to_string(c[1]) + '"';
+  };
   auto edge = slippery ? " -> " : " -- ";
   for (auto const &[c, adj] : nodes)
     for (auto [next_index, steps] : adj) {
       auto next = nodes[next_index].first;
       if (slippery || c < next)
-        cout << name(c) << edge << name(next) << " [label=\"" << steps << "\"];\n";
+        cout << name(c) << edge << name(next) << " [label=\"" << steps
+             << "\"];\n";
     }
   cout << "}\n";
 }

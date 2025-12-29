@@ -67,10 +67,18 @@ hand::hand(string const &s) : cards(s.substr(0, 5)), bid(stoi(s.substr(6))) {
   type = high;
   for (auto [_, count] : counts)
     switch (count) {
-    case 2: type = max(type, one_pair); break;
-    case 3: type = max(type, three); break;
-    case 4: type = max(type, four); break;
-    case 5: type = max(type, five); break;
+    case 2:
+      type = max(type, one_pair);
+      break;
+    case 3:
+      type = max(type, three);
+      break;
+    case 4:
+      type = max(type, four);
+      break;
+    case 5:
+      type = max(type, five);
+      break;
     }
   // Full house?
   if (type == three && counts.size() == 2)
@@ -103,7 +111,10 @@ void solve() {
 }
 
 void part1() { solve(); }
-void part2() { jokers_wild(); solve(); }
+void part2() {
+  jokers_wild();
+  solve();
+}
 
 int main(int argc, char **argv) {
   if (argc != 2) {

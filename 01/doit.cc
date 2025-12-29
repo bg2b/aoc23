@@ -39,19 +39,18 @@ void solve(map<string, int> const &digits) {
   cout << sum << '\n';
 }
 
-map<string, int> basic_digits =
-  {
-     { "0", 0 }, { "1", 1 }, { "2", 2 }, { "3", 3 }, { "4", 4 },
-     { "5", 5 }, { "6", 6 }, { "7", 7 }, { "8", 8 }, { "9", 9 },
-  };
+map<string, int> basic_digits = {
+    {"0", 0}, {"1", 1}, {"2", 2}, {"3", 3}, {"4", 4},
+    {"5", 5}, {"6", 6}, {"7", 7}, {"8", 8}, {"9", 9},
+};
 
 void part1() { solve(basic_digits); }
 
 void part2() {
   auto digits = basic_digits;
   int val = 1;
-  for (auto digit : { "one", "two", "three", "four", "five",
-                       "six", "seven", "eight", "nine" })
+  for (auto digit :
+       {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"})
     digits[digit] = val++;
   solve(digits);
 }
