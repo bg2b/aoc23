@@ -1,7 +1,7 @@
 // -*- C++ -*-
-// g++ -std=c++17 -Wall -g -o doit doit.cc
-// ./doit 1 < input  # part 1
-// ./doit 2 < input  # part 2
+// g++ -std=c++17 -Wall -g -o doit1 doit1.cc
+// ./doit1 1 < input  # part 1
+// ./doit1 2 < input  # part 2
 
 #include <iostream>
 #include <sstream>
