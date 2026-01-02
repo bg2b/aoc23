@@ -318,7 +318,7 @@ void cave::tarjan() {
           break;
       }
       if (scc.size() > 1)
-        nontrivial_sccs.emplace_back(move(scc));
+        nontrivial_sccs.emplace_back(std::move(scc));
     }
   };
   // Scan all nodes to find SCCs

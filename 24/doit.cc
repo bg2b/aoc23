@@ -1,5 +1,5 @@
 // -*- C++ -*-
-// g++ -std=c++17 -Wall -g -o doit doit.cc
+// g++ -std=c++20 -Wall -g -o doit doit.cc
 // ./doit 1 < input  # part 1
 // ./doit 2 < input  # part 2
 

@@ -93,7 +93,7 @@ void farm::step(vector<coord> &reached) const {
         next.push_back(c + dir);
   sort(next.begin(), next.end());
   next.erase(unique(next.begin(), next.end()), next.end());
-  reached = move(next);
+  reached = std::move(next);
 }
 
 void farm::step2(vector<coord> &prev, vector<coord> &frontier) const {
@@ -115,7 +115,7 @@ void farm::step2(vector<coord> &prev, vector<coord> &frontier) const {
   set_difference(next.begin(), next.end(), prev.begin(), prev.end(),
                  back_inserter(next_minus_prev));
   // The move also clears frontier...
-  prev = move(frontier);
+  prev = std::move(frontier);
   set_difference(next_minus_prev.begin(), next_minus_prev.end(), prev.begin(),
                  prev.end(), back_inserter(frontier));
 }
